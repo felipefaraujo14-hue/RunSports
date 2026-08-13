@@ -1,64 +1,117 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+
+import { CorridaService } from '../services/corrida.service';
 
 @Component({
   selector: 'app-cadastro-corrida',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './cadastro-corrida.html',
   styleUrl: './cadastro-corrida.css'
 })
 export class CadastroCorrida {
-  // Controle do formulário reativo
+
   corridaForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    // Inicialização do formulário reativo com validações básicas
+  constructor(
+    private fb: FormBuilder,
+    private corridaService: CorridaService
+  ) {
+
     this.corridaForm = this.fb.group({
-      descricao: ['', Validators.required],
-      data: ['', Validators.required],
-      cincoKm: [false],
-      dezKm: [false],
-      vinteCincoKm: [false]
+
+      descricao: [
+        '',
+        Validators.required
+      ],
+
+      data: [
+        '',
+        Validators.required
+      ],
+
+      cincoKm: [
+        false
+      ],
+
+      dezKm: [
+        false
+      ],
+
+      vinteCincoKm: [
+        false
+      ]
+
     });
+
   }
 
-  // Valida e processa o cadastro da corrida
   cadastrar(): void {
-    // Valida os campos obrigatórios do formulário (descrição e data)
+
     if (this.corridaForm.invalid) {
+
       this.corridaForm.markAllAsTouched();
-      alert('Preencha a descrição e a data da corrida.');
+
+      alert(
+        'Preencha a descrição e a data da corrida.'
+      );
+
       return;
     }
 
-    const corrida = this.corridaForm.value;
+    const dados = this.corridaForm.value;
+
     const distancias: string[] = [];
 
-    // Mapeia os checkboxes marcados para um array de distâncias
-    if (corrida.cincoKm) distancias.push('5km');
-    if (corrida.dezKm) distancias.push('10km');
-    if (corrida.vinteCincoKm) distancias.push('25km');
+    if (dados.cincoKm) {
+      distancias.push('5km');
+    }
 
-    // Validação de regra de negócio: ao menos uma distância deve ser selecionada
+    if (dados.dezKm) {
+      distancias.push('10km');
+    }
+
+    if (dados.vinteCincoKm) {
+      distancias.push('25km');
+    }
+
     if (distancias.length === 0) {
-      alert('Selecione pelo menos uma distância.');
+
+      alert(
+        'Selecione pelo menos uma distância.'
+      );
+
       return;
     }
 
-    // Monta o objeto final da corrida para salvar
-    const corridaCadastrada = {
+    const corrida = {
       id: Date.now(),
-      descricao: corrida.descricao,
-      data: corrida.data,
+      descricao: dados.descricao,
+      data: dados.data,
       distancias: distancias
     };
 
-    console.log('Corrida cadastrada:', corridaCadastrada);
-    alert('Corrida cadastrada com sucesso!');
+    this.corridaService.adicionar(corrida);
 
-    // Reseta o formulário para os valores padrão
+    console.log(
+      'Corrida cadastrada:',
+      corrida
+    );
+
+    alert(
+      'Corrida cadastrada com sucesso!'
+    );
+
     this.corridaForm.reset({
       descricao: '',
       data: '',

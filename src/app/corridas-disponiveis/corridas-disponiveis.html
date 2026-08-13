@@ -1,1 +1,42 @@
-<p>corridas-disponiveis works!</p>
+<div class="pagina">
+    <div class="card">
+        <h2>Corridas Disponíveis</h2>
+        <div class="linha-separadora"></div>
+
+        <!-- Tabela de Listagem de Corridas -->
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Data</th>
+                        <th>Distâncias</th>
+                        <th>Ação</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- Iteração das corridas cadastradas -->
+                    <tr *ngFor="let corrida of corridas">
+                        <td>{{ corrida.descricao }}</td>
+                        <td>{{ corrida.data }}</td>
+                        <!-- Formatação das distâncias separadas por vírgula -->
+                        <td>{{ corrida.distancias.join(', ') }}</td>
+
+                        <!-- Ações da linha -->
+                        <td>
+                            <div class="acoes">
+                                <a routerLink="/inscricao-corrida" [queryParams]="{ corrida: corrida.id }"
+                                    class="link-inscrever">
+                                    Inscrever-se
+                                </a>
+
+                              
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

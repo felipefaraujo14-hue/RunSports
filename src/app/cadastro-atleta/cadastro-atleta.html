@@ -1,67 +1,193 @@
 <div class="pagina">
+
     <div class="card">
+  
       <h2>Cadastro de Atleta</h2>
   
-      <form [formGroup]="atletaForm" (ngSubmit)="cadastrar()">
-        <!-- Nome -->
+      <form
+        [formGroup]="atletaForm"
+        (ngSubmit)="cadastrar()"
+      >
+  
         <div class="campo campo-full">
-          <label for="nome">Nome Completo</label>
-          <input id="nome" type="text" formControlName="nome" placeholder="Digite seu nome completo">
+  
+          <label for="nome">
+            Nome Completo
+          </label>
+  
+          <input
+            id="nome"
+            type="text"
+            formControlName="nome"
+            placeholder="Digite seu nome completo"
+          >
+  
         </div>
   
-        <!-- CPF e Sexo -->
+  
         <div class="linha">
-          <div class="campo">
-            <label for="cpf">CPF</label>
-            <input id="cpf" type="text" formControlName="cpf" placeholder="000.000.000-00">
-          </div>
   
           <div class="campo">
-            <label for="sexo">Sexo</label>
-            <select id="sexo" formControlName="sexo">
-              <option value="">Selecione</option>
-              <option value="masculino">Masculino</option>
-              <option value="feminino">Feminino</option>
-              <option value="outro">Outro</option>
+  
+            <label for="cpf">
+              CPF
+            </label>
+  
+            <input
+              id="cpf"
+              type="text"
+              formControlName="cpf"
+              placeholder="000.000.000-00"
+            >
+  
+          </div>
+  
+  
+          <div class="campo">
+  
+            <label for="sexo">
+              Sexo
+            </label>
+  
+            <select
+              id="sexo"
+              formControlName="sexo"
+            >
+  
+              <option value="">
+                Selecione
+              </option>
+  
+              <option value="Masculino">
+                Masculino
+              </option>
+  
+              <option value="Feminino">
+                Feminino
+              </option>
+  
+              <option value="Outro">
+                Outro
+              </option>
+  
             </select>
+  
           </div>
+  
         </div>
   
-        <!-- CEP e Logradouro -->
+  
         <div class="linha">
+  
           <div class="campo cep">
-            <label for="cep">CEP</label>
-            <input id="cep" type="text" formControlName="cep" placeholder="00000-000" maxlength="9" (blur)="buscarCep()">
-            <small *ngIf="carregandoCep">Buscando CEP...</small>
-            <small class="erro" *ngIf="mensagemCep">{{ mensagemCep }}</small>
+  
+            <label for="cep">
+              CEP
+            </label>
+  
+            <input
+              id="cep"
+              type="text"
+              formControlName="cep"
+              placeholder="00000-000"
+              maxlength="9"
+              (blur)="buscarCep()"
+            >
+  
+            <small *ngIf="carregandoCep">
+              Buscando CEP...
+            </small>
+  
+            <small
+              class="erro"
+              *ngIf="mensagemCep"
+            >
+              {{ mensagemCep }}
+            </small>
+  
           </div>
+  
   
           <div class="campo logradouro">
-            <label for="logradouro">Rua / Logradouro</label>
-            <input id="logradouro" type="text" formControlName="logradouro" placeholder="Rua, Avenida...">
+  
+            <label for="logradouro">
+              Rua / Logradouro
+            </label>
+  
+            <input
+              id="logradouro"
+              type="text"
+              formControlName="logradouro"
+              placeholder="Rua ou Avenida"
+            >
+  
           </div>
+  
         </div>
   
-        <!-- Bairro, Cidade e UF -->
+  
         <div class="linha">
+  
           <div class="campo bairro">
-            <label for="bairro">Bairro</label>
-            <input id="bairro" type="text" formControlName="bairro" placeholder="Digite o bairro">
+  
+            <label for="bairro">
+              Bairro
+            </label>
+  
+            <input
+              id="bairro"
+              type="text"
+              formControlName="bairro"
+              placeholder="Bairro"
+            >
+  
           </div>
+  
   
           <div class="campo cidade">
-            <label for="cidade">Cidade</label>
-            <input id="cidade" type="text" formControlName="cidade" placeholder="Digite a cidade">
+  
+            <label for="cidade">
+              Cidade
+            </label>
+  
+            <input
+              id="cidade"
+              type="text"
+              formControlName="cidade"
+              placeholder="Cidade"
+            >
+  
           </div>
+  
   
           <div class="campo uf">
-            <label for="uf">UF</label>
-            <input id="uf" type="text" formControlName="uf" placeholder="UF" maxlength="2">
+  
+            <label for="uf">
+              UF
+            </label>
+  
+            <input
+              id="uf"
+              type="text"
+              formControlName="uf"
+              placeholder="UF"
+              maxlength="2"
+            >
+  
           </div>
+  
         </div>
   
-        <!-- Botão -->
-        <button type="submit" class="btn-cadastrar">Cadastrar Atleta</button>
+  
+        <button
+          type="submit"
+          class="btn-cadastrar"
+        >
+          Cadastrar Atleta
+        </button>
+  
       </form>
+  
     </div>
+  
   </div>
