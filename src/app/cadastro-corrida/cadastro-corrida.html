@@ -1,1 +1,69 @@
-<p>cadastro-corrida works!</p>
+<div class="pagina">
+    <div class="card">
+      <h2>Cadastro de Corrida</h2>
+      <div class="linha-separadora"></div>
+  
+      <form [formGroup]="corridaForm" (ngSubmit)="cadastrar()">
+        <!-- Descrição da Corrida -->
+        <div class="campo">
+          <label for="descricao">Descrição da Corrida</label>
+          <textarea
+            id="descricao"
+            formControlName="descricao"
+            placeholder="Ex: 5ª Maratona Noturna da Cidade"
+          ></textarea>
+  
+          <small
+            class="erro"
+            *ngIf="
+              corridaForm.get('descricao')?.touched &&
+              corridaForm.get('descricao')?.invalid
+            "
+          >
+            Informe a descrição da corrida.
+          </small>
+        </div>
+  
+        <!-- Data -->
+        <div class="campo">
+          <label for="data">Data da Corrida</label>
+          <input id="data" type="date" formControlName="data" />
+  
+          <small
+            class="erro"
+            *ngIf="
+              corridaForm.get('data')?.touched &&
+              corridaForm.get('data')?.invalid
+            "
+          >
+            Informe a data da corrida.
+          </small>
+        </div>
+  
+        <!-- Distâncias Disponíveis -->
+        <div class="campo">
+          <label>Distâncias Disponíveis</label>
+  
+          <div class="distancias">
+            <label class="checkbox">
+              <input type="checkbox" formControlName="cincoKm" />
+              <span>5km</span>
+            </label>
+  
+            <label class="checkbox">
+              <input type="checkbox" formControlName="dezKm" />
+              <span>10km</span>
+            </label>
+  
+            <label class="checkbox">
+              <input type="checkbox" formControlName="vinteCincoKm" />
+              <span>25km</span>
+            </label>
+          </div>
+        </div>
+  
+        <!-- Botão de Envio -->
+        <button type="submit" class="btn-cadastrar">Cadastrar Corrida</button>
+      </form>
+    </div>
+  </div>
