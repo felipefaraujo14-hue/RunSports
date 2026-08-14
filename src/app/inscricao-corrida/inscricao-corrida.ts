@@ -51,7 +51,7 @@ export class InscricaoCorrida implements OnInit {
     });
   }
 
-  // --- GERENCIAMENTO DE ATLETAS ---
+  //GERENCIAMENTO DE ATLETAS
 
   carregarAtletas(): void {
     this.atletas = this.pessoaService.listar();
@@ -103,7 +103,7 @@ export class InscricaoCorrida implements OnInit {
     return numero.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
 
-  // --- GERENCIAMENTO DE CORRIDAS ---
+  // GERENCIAMENTO DE CORRIDAS
 
   carregarCorrida(id: number): void {
     const corrida = this.corridaService.buscarPorId(id);
@@ -147,7 +147,7 @@ export class InscricaoCorrida implements OnInit {
     return data;
   }
 
-  // --- FINALIZAÇÃO DA INSCRIÇÃO ---
+  //FINALIZAÇÃO DA INSCRIÇÃO
 
   finalizarInscricao(): void {
     if (this.inscricaoForm.invalid) {

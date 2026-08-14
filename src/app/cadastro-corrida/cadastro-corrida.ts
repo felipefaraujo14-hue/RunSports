@@ -1,10 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators
 } from '@angular/forms';
 
 import { CorridaService } from '../services/corrida.service';
@@ -12,10 +8,7 @@ import { CorridaService } from '../services/corrida.service';
 @Component({
   selector: 'app-cadastro-corrida',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './cadastro-corrida.html',
   styleUrl: './cadastro-corrida.css'
 })

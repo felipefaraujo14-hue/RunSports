@@ -10,10 +10,7 @@ import {
 @Component({
   selector: 'app-corridas-disponiveis',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink
-  ],
+  imports: [ CommonModule,RouterLink],
   templateUrl: './corridas-disponiveis.html',
   styleUrl: './corridas-disponiveis.css'
 })

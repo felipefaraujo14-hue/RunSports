@@ -1,0 +1,157 @@
+/* Layout da Página */
+.pagina {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 70px);
+    padding: 2.5rem 1rem;
+    background-color: #f8fafc;
+    box-sizing: border-box;
+  }
+  
+  /* Card Centralizador */
+  .card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 640px;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    border: 1px solid #f1f5f9;
+  }
+  
+  .card h2 {
+    margin: 0 0 1.75rem 0;
+    font-size: 1.5rem;
+    color: #0f172a;
+    text-align: center;
+    font-weight: 700;
+  }
+  
+  /* Formulário e Estrutura de Linhas */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .linha {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    min-width: 120px;
+  }
+  
+  .campo-full {
+    width: 100%;
+  }
+  
+  /* Proporções customizadas dos campos de endereço */
+  .campo.cep {
+    flex: 0 0 140px;
+  }
+  
+  .campo.logradouro {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .campo.bairro,
+  .campo.cidade {
+    flex: 2;
+    min-width: 140px;
+  }
+  
+  .campo.uf {
+    flex: 0 0 80px;
+  }
+  
+  /* Rótulos e Inputs */
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+  }
+  
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #1e293b;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  
+  input[type="text"]:focus,
+  select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+  
+  input::placeholder {
+    color: #94a3b8;
+  }
+  
+  /* Feedback de CEP (Carregando / Erro) */
+  small {
+    font-size: 0.8rem;
+    color: #2563eb;
+    margin-top: 0.2rem;
+    font-weight: 500;
+  }
+  
+  small.erro {
+    color: #dc2626;
+  }
+  
+  /* Botão Cadastrar */
+  .btn-cadastrar {
+    margin-top: 0.75rem;
+    width: 100%;
+    padding: 0.875rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+  }
+  
+  .btn-cadastrar:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .btn-cadastrar:active {
+    transform: scale(0.99);
+  }
+  
+  /* Ajuste Responsivo para Dispositivos Móveis */
+  @media (max-width: 600px) {
+    .card {
+      padding: 1.5rem;
+    }
+  
+    .linha {
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+  
+    .campo.cep,
+    .campo.uf {
+      flex: 1;
+    }
+  }

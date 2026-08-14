@@ -1,0 +1,206 @@
+/* Layout da Página */
+.pagina {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 70px);
+    padding: 2.5rem 1rem;
+    background-color: #f8fafc;
+    box-sizing: border-box;
+  }
+  
+  /* Card Centralizador */
+  .card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 680px;
+    padding: 2.5rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    border: 1px solid #f1f5f9;
+  }
+  
+  .card h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    color: #0f172a;
+    text-align: center;
+    font-weight: 700;
+  }
+  
+  /* Linha Separadora */
+  .linha-separadora {
+    height: 1px;
+    background-color: #e2e8f0;
+    margin-bottom: 1.75rem;
+    width: 100%;
+  }
+  
+  /* Formulário e Layout */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .linha {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  /* Labels */
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #475569;
+  }
+  
+  /* Inputs e Selects */
+  input[type="text"],
+  select {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    color: #1e293b;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  
+  input[type="text"]:focus,
+  select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+  
+  /* Input Readonly (Categoria) */
+  input[readonly] {
+    background-color: #f1f5f9;
+    color: #64748b;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+  }
+  
+  /* Opções de Radio para Distância */
+  .radios {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: 44px;
+    flex-wrap: wrap;
+  }
+  
+  .radios label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.95rem;
+    color: #334155;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .radios input[type="radio"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    accent-color: #2563eb;
+    cursor: pointer;
+  }
+  
+  /* Destaque do Valor da Inscrição */
+  .valor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    margin-top: 0.25rem;
+  }
+  
+  .valor strong {
+    color: #1e3a8a;
+    font-size: 0.95rem;
+  }
+  
+  .valor span {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2563eb;
+  }
+  
+  /* Checkbox dos Termos */
+  .termos label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    color: #475569;
+    font-weight: 400;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+  
+  .termos input[type="checkbox"] {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.1rem;
+    accent-color: #2563eb;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  
+  /* Botão de Finalizar */
+  .btn-finalizar {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.875rem;
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+  }
+  
+  .btn-finalizar:hover {
+    background-color: #1d4ed8;
+  }
+  
+  .btn-finalizar:active {
+    transform: scale(0.99);
+  }
+  
+  /* Responsividade */
+  @media (max-width: 600px) {
+    .card {
+      padding: 1.5rem;
+    }
+  
+    .linha {
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+  
+    .valor {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+  }

@@ -1,277 +1,117 @@
 <div class="pagina">
+  <div class="card">
+    <h2>Inscrição na Corrida</h2>
 
-    <div class="card">
-  
-      <h2>Inscrição na Corrida</h2>
-  
-      <div class="linha-separadora"></div>
-  
-      <form
-        [formGroup]="inscricaoForm"
-        (ngSubmit)="finalizarInscricao()"
-      >
-  
-        <!-- ATLETA + CPF -->
-  
-        <div class="linha">
-  
-          <div class="campo atleta">
-  
-            <label for="atleta">
-              Atleta Cadastrado
-            </label>
-  
-            <select
-              id="atleta"
-              formControlName="atleta"
-              (change)="selecionarAtleta()"
-            >
-  
-              <option value="">
-                Selecione o atleta
-              </option>
-  
-              <option
-                *ngFor="let atleta of atletas"
-                [value]="atleta.id"
-              >
-                {{ atleta.nome }}
-              </option>
-  
-            </select>
-  
-          </div>
-  
-  
-          <div class="campo cpf">
-  
-            <label for="cpf">
-              Ou Buscar por CPF
-            </label>
-  
-            <input
-              id="cpf"
-              type="text"
-              formControlName="cpf"
-              placeholder="000.000.000-00"
-              (blur)="buscarAtletaPorCpf()"
-            >
-  
-          </div>
-  
+    <div class="linha-separadora"></div>
+
+    <form [formGroup]="inscricaoForm" (ngSubmit)="finalizarInscricao()">
+
+      <!-- ATLETA + CPF -->
+      <div class="linha">
+        <div class="campo atleta">
+          <label for="atleta">Atleta Cadastrado</label>
+          <select id="atleta" formControlName="atleta" (change)="selecionarAtleta()">
+            <option value="">Selecione o atleta</option>
+            <option *ngFor="let atleta of atletas" [value]="atleta.id">
+              {{ atleta.nome }}
+            </option>
+          </select>
         </div>
-  
-  
-        <!-- CORRIDA + DISTÂNCIA -->
-  
-        <div class="linha">
-  
-          <div class="campo corrida">
-  
-            <label for="corrida">
-              Corrida Escolhida
-            </label>
-  
-            <select
-              id="corrida"
-              formControlName="corrida"
-            >
-  
-              <option value="">
-                Selecione uma corrida
-              </option>
-  
-              <option
-                *ngIf="corridaSelecionada"
-                [value]="formatarCorrida(corridaSelecionada)"
-              >
-                {{ formatarCorrida(corridaSelecionada) }}
-              </option>
-  
-            </select>
-  
-          </div>
-  
-  
-          <div class="campo distancia">
-  
-            <label>
-              Distância da Prova
-            </label>
-  
-            <div class="radios">
-  
-              <label
-                *ngIf="
-                  corridaSelecionada?.distancias?.includes('5km')
-                "
-              >
-  
-                <input
-                  type="radio"
-                  formControlName="distancia"
-                  value="5km"
-                >
-  
-                5km
-  
-              </label>
-  
-  
-              <label
-                *ngIf="
-                  corridaSelecionada?.distancias?.includes('10km')
-                "
-              >
-  
-                <input
-                  type="radio"
-                  formControlName="distancia"
-                  value="10km"
-                >
-  
-                10km
-  
-              </label>
-  
-  
-              <label
-                *ngIf="
-                  corridaSelecionada?.distancias?.includes('25km')
-                "
-              >
-  
-                <input
-                  type="radio"
-                  formControlName="distancia"
-                  value="25km"
-                >
-  
-                25km
-  
-              </label>
-  
-            </div>
-  
-          </div>
-  
+
+        <div class="campo cpf">
+          <label for="cpf">Ou Buscar por CPF</label>
+          <input
+            id="cpf"
+            type="text"
+            formControlName="cpf"
+            placeholder="000.000.000-00"
+            (blur)="buscarAtletaPorCpf()"
+          >
         </div>
-  
-  
-        <!-- CAMISETA + CATEGORIA -->
-  
-        <div class="linha">
-  
-          <div class="campo camiseta">
-  
-            <label for="camiseta">
-              Tamanho da Camiseta (Kit)
+      </div>
+
+      <!-- CORRIDA + DISTÂNCIA -->
+      <div class="linha">
+        <div class="campo corrida">
+          <label for="corrida">Corrida Escolhida</label>
+          <select id="corrida" formControlName="corrida">
+            <option value="">Selecione uma corrida</option>
+            <option
+              *ngIf="corridaSelecionada"
+              [value]="formatarCorrida(corridaSelecionada)"
+            >
+              {{ formatarCorrida(corridaSelecionada) }}
+            </option>
+          </select>
+        </div>
+
+        <div class="campo distancia">
+          <label>Distância da Prova</label>
+          <div class="radios">
+            <label *ngIf="corridaSelecionada?.distancias?.includes('5km')">
+              <input type="radio" formControlName="distancia" value="5km">
+              5km
             </label>
-  
-            <select
-              id="camiseta"
-              formControlName="camiseta"
-            >
-  
-              <option value="">
-                Selecione
-              </option>
-  
-              <option value="PP">
-                PP
-              </option>
-  
-              <option value="P">
-                P
-              </option>
-  
-              <option value="M">
-                M
-              </option>
-  
-              <option value="G">
-                G
-              </option>
-  
-              <option value="GG">
-                GG
-              </option>
-  
-              <option value="XG">
-                XG
-              </option>
-  
-            </select>
-  
-          </div>
-  
-  
-          <div class="campo categoria">
-  
-            <label for="categoria">
-              Categoria / Faixa Etária
+
+            <label *ngIf="corridaSelecionada?.distancias?.includes('10km')">
+              <input type="radio" formControlName="distancia" value="10km">
+              10km
             </label>
-  
-            <input
-              id="categoria"
-              type="text"
-              formControlName="categoria"
-              placeholder="Categoria do atleta"
-              readonly
-            >
-  
+
+            <label *ngIf="corridaSelecionada?.distancias?.includes('25km')">
+              <input type="radio" formControlName="distancia" value="25km">
+              25km
+            </label>
           </div>
-  
         </div>
-  
-  
-        <!-- VALOR -->
-  
-        <div class="valor">
-  
-          <strong>
-            Valor da Inscrição:
-          </strong>
-  
-          <span>
-            R$ {{ valorInscricao | number:'1.2-2' }}
-          </span>
-  
+      </div>
+
+      <!-- CAMISETA + CATEGORIA -->
+      <div class="linha">
+        <div class="campo camiseta">
+          <label for="camiseta">Tamanho da Camiseta (Kit)</label>
+          <select id="camiseta" formControlName="camiseta">
+            <option value="">Selecione</option>
+            <option value="PP">PP</option>
+            <option value="P">P</option>
+            <option value="M">M</option>
+            <option value="G">G</option>
+            <option value="GG">GG</option>
+            <option value="XG">XG</option>
+          </select>
         </div>
-  
-  
-        <!-- TERMOS -->
-  
-        <div class="termos">
-  
-          <label>
-  
-            <input
-              type="checkbox"
-              formControlName="termos"
-            >
-  
-            Li e aceito os termos do regulamento
-            da prova e declaração de saúde.
-  
-          </label>
-  
+
+        <div class="campo categoria">
+          <label for="categoria">Categoria / Faixa Etária</label>
+          <input
+            id="categoria"
+            type="text"
+            formControlName="categoria"
+            placeholder="Categoria do atleta"
+            readonly
+          >
         </div>
-  
-  
-        <!-- FINALIZAR -->
-  
-        <button
-          type="submit"
-          class="btn-finalizar"
-        >
-  
-          Finalizar e Ir para Pagamento
-  
-        </button>
-  
-      </form>
-  
-    </div>
-  
+      </div>
+
+      <!-- VALOR -->
+      <div class="valor">
+        <strong>Valor da Inscrição:</strong>
+        <span>R$ {{ valorInscricao | number:'1.2-2' }}</span>
+      </div>
+
+      <!-- TERMOS -->
+      <div class="termos">
+        <label>
+          <input type="checkbox" formControlName="termos">
+          Li e aceito os termos do regulamento da prova e declaração de saúde.
+        </label>
+      </div>
+
+      <!-- FINALIZAR -->
+      <button type="submit" class="btn-finalizar">
+        Finalizar e Ir para Pagamento
+      </button>
+
+    </form>
   </div>
+</div>
