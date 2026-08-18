@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { Corrida, CorridaService } from '../services/corrida.service';
 import { Atleta, PessoaService } from '../services/pessoa.service';
 
@@ -13,6 +14,7 @@ import { Atleta, PessoaService } from '../services/pessoa.service';
   styleUrl: './inscricao-corrida.css'
 })
 export class InscricaoCorrida implements OnInit {
+  // Propriedades da classe
   inscricaoForm: FormGroup;
   corridaSelecionada?: Corrida;
   valorInscricao = 89.90;
@@ -25,24 +27,26 @@ export class InscricaoCorrida implements OnInit {
     private corridaService: CorridaService,
     private pessoaService: PessoaService
   ) {
-    // Inicialização do formulário reativo e validações
+    // Inicialização e configuração dos campos do formulário
     this.inscricaoForm = this.fb.group({
       atleta: ['', Validators.required],
       cpf: [''],
       corrida: ['', Validators.required],
       distancia: ['', Validators.required],
       camiseta: ['', Validators.required],
-      categoria: [{ value: '', disabled: true }],
+      categoria: [{ value: '', disabled: true }], // Campo desabilitado para edição direta
       termos: [false, Validators.requiredTrue]
     });
   }
 
   ngOnInit(): void {
+    // Carrega a lista inicial de atletas
     this.carregarAtletas();
 
-    // Obtém o ID da corrida passado nos parâmetros da URL
+    // Obtém parâmetros da URL para identificar a corrida selecionada
     this.route.queryParams.subscribe(params => {
       const id = Number(params['corrida']);
+
       if (id) {
         this.carregarCorrida(id);
       } else {
@@ -51,19 +55,35 @@ export class InscricaoCorrida implements OnInit {
     });
   }
 
-  //GERENCIAMENTO DE ATLETAS
+  // ==========================================
+  // GERENCIAMENTO DE ATLETAS
+  // ==========================================
 
-  carregarAtletas(): void {
-    this.atletas = this.pessoaService.listar();
+  /**
+   * Busca e carrega a lista de atletas cadastrados no serviço.
+   */
+  async carregarAtletas(): Promise<void> {
+    try {
+      this.atletas = await this.pessoaService.listar();
+      console.log('Atletas carregados:', this.atletas);
+    } catch (error) {
+      console.error('Erro ao carregar atletas:', error);
+      alert('Erro ao carregar os atletas.');
+    }
   }
 
-  // Atualiza CPF e Categoria ao selecionar o atleta no dropdown
+  /**
+   * Preenche automaticamente CPF e Categoria ao selecionar um atleta no dropdown.
+   */
   selecionarAtleta(): void {
     const id = Number(this.inscricaoForm.get('atleta')?.value);
     const atleta = this.atletas.find(item => item.id === id);
 
     if (!atleta) {
-      this.inscricaoForm.patchValue({ cpf: '', categoria: '' });
+      this.inscricaoForm.patchValue({
+        cpf: '',
+        categoria: ''
+      });
       return;
     }
 
@@ -73,38 +93,60 @@ export class InscricaoCorrida implements OnInit {
     });
   }
 
-  // Busca atleta pelo CPF preenchido manualmente
-  buscarAtletaPorCpf(): void {
+  /**
+   * Busca informações do atleta a partir do CPF inserido no formulário.
+   */
+  async buscarAtletaPorCpf(): Promise<void> {
     const cpf = this.inscricaoForm.get('cpf')?.value;
+
     if (!cpf) return;
 
-    const atleta = this.pessoaService.buscarPorCpf(cpf);
-    if (!atleta) {
-      alert('Nenhum atleta encontrado com este CPF.');
-      return;
-    }
+    try {
+      const atleta = await this.pessoaService.buscarPorCpf(cpf);
 
-    this.inscricaoForm.patchValue({
-      atleta: atleta.id,
-      cpf: this.formatarCpf(atleta.cpf),
-      categoria: this.calcularCategoria(atleta)
-    });
+      if (!atleta) {
+        alert('Nenhum atleta encontrado com este CPF.');
+        return;
+      }
+
+      this.inscricaoForm.patchValue({
+        atleta: atleta.id,
+        cpf: this.formatarCpf(atleta.cpf),
+        categoria: this.calcularCategoria(atleta)
+      });
+    } catch (error) {
+      console.error('Erro ao buscar atleta:', error);
+      alert('Erro ao consultar o atleta.');
+    }
   }
 
+  /**
+   * Define a categoria do atleta com base no sexo.
+   */
   calcularCategoria(atleta: Atleta): string {
     if (atleta.sexo === 'Feminino') return 'Geral Feminino';
     if (atleta.sexo === 'Masculino') return 'Geral Masculino';
     return 'Categoria Geral';
   }
 
+  /**
+   * Formata a string do CPF para o padrão 000.000.000-00.
+   */
   formatarCpf(cpf: string): string {
     const numero = cpf.replace(/\D/g, '');
+
     if (numero.length !== 11) return cpf;
+
     return numero.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
 
+  // ==========================================
   // GERENCIAMENTO DE CORRIDAS
+  // ==========================================
 
+  /**
+   * Busca e define a corrida selecionada pelo ID informado.
+   */
   carregarCorrida(id: number): void {
     const corrida = this.corridaService.buscarPorId(id);
 
@@ -120,6 +162,9 @@ export class InscricaoCorrida implements OnInit {
     });
   }
 
+  /**
+   * Seleciona a primeira corrida disponível como padrão caso nenhuma seja especificada.
+   */
   carregarPrimeiraCorrida(): void {
     const corridas = this.corridaService.listar();
 
@@ -131,11 +176,17 @@ export class InscricaoCorrida implements OnInit {
     }
   }
 
+  /**
+   * Formata a exibição do nome e data da corrida para o campo de formulário.
+   */
   formatarCorrida(corrida: Corrida): string {
     const data = this.formatarData(corrida.data);
     return `${corrida.descricao} (${data})`;
   }
 
+  /**
+   * Converte a data do formato AAAA-MM-DD para DD/MM/AAAA.
+   */
   formatarData(data: string): string {
     if (data.includes('/')) return data;
 
@@ -147,9 +198,15 @@ export class InscricaoCorrida implements OnInit {
     return data;
   }
 
-  //FINALIZAÇÃO DA INSCRIÇÃO
+  // ==========================================
+  // FINALIZAÇÃO DA INSCRIÇÃO
+  // ==========================================
 
+  /**
+   * Valida os campos do formulário, gera a inscrição e redireciona para o pagamento.
+   */
   finalizarInscricao(): void {
+    // Validação do formulário
     if (this.inscricaoForm.invalid) {
       this.inscricaoForm.markAllAsTouched();
       alert('Preencha todos os campos e aceite os termos da inscrição.');
@@ -161,6 +218,7 @@ export class InscricaoCorrida implements OnInit {
       return;
     }
 
+    // `getRawValue()` garante a leitura de campos desabilitados como 'categoria'
     const dados = this.inscricaoForm.getRawValue();
     const atleta = this.atletas.find(item => item.id === Number(dados.atleta));
 
@@ -169,7 +227,7 @@ export class InscricaoCorrida implements OnInit {
       return;
     }
 
-    // Monta o objeto de inscrição
+    // Montagem do objeto de inscrição
     const inscricao = {
       id: Date.now(),
       atletaId: atleta.id,
@@ -185,11 +243,11 @@ export class InscricaoCorrida implements OnInit {
       dataInscricao: new Date().toISOString()
     };
 
-    // Salva no localStorage e redireciona
+    // Salva temporariamente no localStorage e redireciona
     localStorage.setItem('ultimaInscricao', JSON.stringify(inscricao));
     console.log('Inscrição realizada:', inscricao);
-
     alert('Inscrição realizada com sucesso!');
+
     this.router.navigate(['/pagamento']);
   }
 }
