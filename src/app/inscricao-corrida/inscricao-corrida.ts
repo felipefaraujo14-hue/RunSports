@@ -243,10 +243,11 @@ export class InscricaoCorrida implements OnInit {
       dataInscricao: new Date().toISOString()
     };
 
-    // Salva temporariamente no localStorage e redireciona
     localStorage.setItem('ultimaInscricao', JSON.stringify(inscricao));
     console.log('Inscrição realizada:', inscricao);
     alert('Inscrição realizada com sucesso!');
+
+    this.inscricaoForm.reset();
 
     this.router.navigate(['/pagamento']);
   }
