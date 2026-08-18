@@ -14,12 +14,11 @@ export interface Endereco {
 }
 
 @Injectable({
-  // Serviço disponível em toda a aplicação
   providedIn: 'root' 
 })
 
 export class CepService {
-  // URL base do webservice do ViaCEP
+  // URL do ViaCEP
   private apiUrl = 'https://viacep.com.br/ws';
 
   constructor(private http: HttpClient) {}
