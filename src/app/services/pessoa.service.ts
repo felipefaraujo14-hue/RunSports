@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { SupabaseService } from './supabase.service';
 
-// Interface que define a estrutura de dados de um Atleta (Pessoa)
 export interface Atleta {
-  id: number;
+  id?: number;
   nome: string;
   cpf: string;
   sexo: string;
@@ -14,93 +14,132 @@ export interface Atleta {
 }
 
 @Injectable({
-  providedIn: 'root' 
+  providedIn: 'root'
 })
 export class PessoaService {
-  // Chave utilizada para armazenar e buscar os dados no LocalStorage
-  private chave = 'atletas';
 
-  constructor() {}
+  private tabela = 'atletas';
 
-  /**
-   * Adiciona um novo atleta ao LocalStorage.
-   * @param atleta Objeto do tipo Atleta a ser cadastrado.
-   */
-  adicionar(atleta: Atleta): void {
-    const atletas = this.listar();
-    atletas.push(atleta);
+  constructor(private supabaseService: SupabaseService) {}
 
-    // Converte o array atualizado para JSON e salva no LocalStorage
-    localStorage.setItem(this.chave, JSON.stringify(atletas));
+  private get supabase() {
+    return this.supabaseService.getClient();
   }
 
-  /**
-   * Recupera a lista de todos os atletas cadastrados.
-   * @returns Array de atletas ou um array vazio caso não existam dados.
-   */
-  listar(): Atleta[] {
-    const dados = localStorage.getItem(this.chave);
+  // CADASTRAR
+  async adicionar(atleta: Atleta): Promise<Atleta> {
 
-    if (!dados) {
-      return [];
+    const { data, error } = await this.supabase
+      .from(this.tabela)
+      .insert({
+        nome: atleta.nome,
+        cpf: atleta.cpf.replace(/\D/g, ''),
+        sexo: atleta.sexo,
+        cep: atleta.cep,
+        logradouro: atleta.logradouro,
+        bairro: atleta.bairro,
+        cidade: atleta.cidade,
+        uf: atleta.uf
+      })
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
     }
 
-    return JSON.parse(dados);
+    return data;
   }
 
-  /**
-   * Busca um atleta específico através do seu ID.
-   * @param id Identificador único do atleta.
-   * @returns O atleta encontrado ou undefined se não existir.
-   */
-  buscarPorId(id: number): Atleta | undefined {
-    return this.listar().find(atleta => atleta.id === id);
+  // LISTAR
+  async listar(): Promise<Atleta[]> {
+
+    const { data, error } = await this.supabase
+      .from(this.tabela)
+      .select('*')
+      .order('id', { ascending: true });
+
+    if (error) {
+      throw error;
+    }
+
+    return data ?? [];
   }
 
-  /**
-   * Busca um atleta através do CPF (sanitiza a string removendo caracteres especiais).
-   * @param cpf Número do CPF (formatado ou apenas dígitos).
-   * @returns O atleta correspondente ou undefined.
-   */
-  buscarPorCpf(cpf: string): Atleta | undefined {
-    // Remove qualquer caractere não numérico (pontos, hífens, etc.)
+  // BUSCAR POR ID
+  async buscarPorId(id: number): Promise<Atleta | null> {
+
+    const { data, error } = await this.supabase
+      .from(this.tabela)
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
+
+  // BUSCAR POR CPF
+  async buscarPorCpf(cpf: string): Promise<Atleta | null> {
+
     const cpfLimpo = cpf.replace(/\D/g, '');
 
-    return this.listar().find(
-      atleta => atleta.cpf.replace(/\D/g, '') === cpfLimpo
-    );
-  }
+    const { data, error } = await this.supabase
+      .from(this.tabela)
+      .select('*')
+      .eq('cpf', cpfLimpo)
+      .maybeSingle();
 
-  /**
-   * Atualiza os dados de um atleta existente.
-   * @param atletaAtualizado Objeto com os dados atualizados do atleta.
-   */
-  atualizar(atletaAtualizado: Atleta): void {
-    const atletas = this.listar();
-
-    // Localiza o índice do item no array pelo ID
-    const index = atletas.findIndex(
-      atleta => atleta.id === atletaAtualizado.id
-    );
-
-    // Se o item for encontrado, atualiza e persiste no LocalStorage
-    if (index !== -1) {
-      atletas[index] = atletaAtualizado;
-      localStorage.setItem(this.chave, JSON.stringify(atletas));
+    if (error) {
+      throw error;
     }
+
+    return data;
   }
 
-  /**
-   * Remove um atleta do LocalStorage pelo seu ID.
-   * @param id Identificador único do atleta a ser removido.
-   */
-  excluir(id: number): void {
-    // Filtra criando uma nova lista sem o atleta com o ID especificado
-    const atletas = this.listar().filter(
-      atleta => atleta.id !== id
-    );
+  // ATUALIZAR
+  async atualizar(atleta: Atleta): Promise<Atleta> {
 
-    // Persiste a lista atualizada
-    localStorage.setItem(this.chave, JSON.stringify(atletas));
+    if (!atleta.id) {
+      throw new Error('ID do atleta não informado.');
+    }
+
+    const { data, error } = await this.supabase
+      .from(this.tabela)
+      .update({
+        nome: atleta.nome,
+        cpf: atleta.cpf.replace(/\D/g, ''),
+        sexo: atleta.sexo,
+        cep: atleta.cep,
+        logradouro: atleta.logradouro,
+        bairro: atleta.bairro,
+        cidade: atleta.cidade,
+        uf: atleta.uf
+      })
+      .eq('id', atleta.id)
+      .select()
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
+
+  // EXCLUIR
+  async excluir(id: number): Promise<void> {
+
+    const { error } = await this.supabase
+      .from(this.tabela)
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      throw error;
+    }
   }
 }
