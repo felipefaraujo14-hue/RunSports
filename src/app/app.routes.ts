@@ -3,6 +3,8 @@ import { CadastroAtleta } from './cadastro-atleta/cadastro-atleta';
 import { CadastroCorrida } from './cadastro-corrida/cadastro-corrida';
 import { CorridasDisponiveis } from './corridas-disponiveis/corridas-disponiveis';
 import { InscricaoCorrida } from './inscricao-corrida/inscricao-corrida';
+import { Component } from '../../node_modules/@angular/core/types/_debug_node-chunk';
+import { ListaAtleta } from './lista-atleta/lista-atleta';
 
 export const routes: Routes = [
     {
@@ -29,6 +31,11 @@ export const routes: Routes = [
       {
         path: 'inscricao-corrida',
         component: InscricaoCorrida
+      },
+
+      {
+        path: 'lista-atleta',
+        component: ListaAtleta
       }
     
 ];

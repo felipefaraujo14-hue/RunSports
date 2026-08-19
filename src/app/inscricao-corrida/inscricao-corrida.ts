@@ -55,10 +55,8 @@ export class InscricaoCorrida implements OnInit {
     });
   }
 
-  // ==========================================
   // GERENCIAMENTO DE ATLETAS
-  // ==========================================
-
+ 
   /**
    * Busca e carrega a lista de atletas cadastrados no serviço.
    */
@@ -198,12 +196,10 @@ export class InscricaoCorrida implements OnInit {
     return data;
   }
 
-  // ==========================================
   // FINALIZAÇÃO DA INSCRIÇÃO
-  // ==========================================
-
+ 
   /**
-   * Valida os campos do formulário, gera a inscrição e redireciona para o pagamento.
+   * Valida os campos do formulário
    */
   finalizarInscricao(): void {
     // Validação do formulário

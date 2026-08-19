@@ -1,0 +1,151 @@
+.pagina {
+    padding: 30px;
+    background: #f5f6f8;
+    min-height: 100vh;
+  }
+  
+  .cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+  
+  .cabecalho h1 {
+    margin: 0;
+    color: #1f2937;
+  }
+  
+  .cabecalho p {
+    color: #6b7280;
+  }
+  
+  .total {
+    background: white;
+    padding: 12px 25px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .total span {
+    display: block;
+    color: #6b7280;
+    font-size: 13px;
+  }
+  
+  .total strong {
+    font-size: 25px;
+    color: #2563eb;
+  }
+  
+  .tabela-container {
+    background: white;
+    border-radius: 12px;
+    overflow-x: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  thead {
+    background: #2563eb;
+    color: white;
+  }
+  
+  th {
+    padding: 14px;
+    text-align: left;
+  }
+  
+  td {
+    padding: 13px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  tbody tr:hover {
+    background: #f8fafc;
+  }
+  
+  .acoes {
+    white-space: nowrap;
+  }
+  
+  button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  
+  .btn-editar {
+    background: #dbeafe;
+    color: #1d4ed8;
+  }
+  
+  .btn-excluir {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+  
+  .sem-atletas,
+  .mensagem {
+    padding: 30px;
+    text-align: center;
+    color: #6b7280;
+  }
+  
+  .formulario-edicao {
+    margin-top: 25px;
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .08);
+  }
+  
+  .formulario-edicao h2 {
+    margin-top: 0;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  
+  .campo {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .campo label {
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #374151;
+  }
+  
+  .campo input,
+  .campo select {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  
+  .botoes-edicao {
+    margin-top: 20px;
+  }
+  
+  .btn-salvar {
+    background: #16a34a;
+    color: white;
+  }
+  
+  .btn-cancelar {
+    background: #e5e7eb;
+    color: #374151;
+  }
+  
