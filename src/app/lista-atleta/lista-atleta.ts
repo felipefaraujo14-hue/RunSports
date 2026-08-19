@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PessoaService, Atleta } from '../services/pessoa.service';
@@ -11,12 +11,12 @@ import { PessoaService, Atleta } from '../services/pessoa.service';
   styleUrls: ['./lista-atleta.css']
 })
 export class ListaAtleta implements OnInit {
-  // Estado e dados do componente
+  // Lista principal e flags de estado
   atletas: Atleta[] = [];
   carregando = false;
   salvando = false;
 
-  // Armazena a cópia do atleta em edição (ou null se nenhum estiver selecionado)
+  // Armazena a cópia do atleta durante o fluxo de edição
   atletaEditando: Atleta | null = null;
 
   constructor(private pessoaService: PessoaService) {}
@@ -25,9 +25,7 @@ export class ListaAtleta implements OnInit {
     await this.carregarAtletas();
   }
 
-  /**
-   * Busca a lista atualizada de atletas cadastrados.
-   */
+  // Carrega a listagem inicial de atletas do serviço
   async carregarAtletas(): Promise<void> {
     this.carregando = true;
 
@@ -41,24 +39,18 @@ export class ListaAtleta implements OnInit {
     }
   }
 
-  /**
-   * Cria uma cópia independente do atleta selecionado para o formulário de edição.
-   */
+  // Prepara o formulário/modal criando uma cópia do atleta selecionado
   editarAtleta(atleta: Atleta): void {
     this.atletaEditando = { ...atleta };
     console.log('Editando atleta:', this.atletaEditando);
   }
 
-  /**
-   * Cancela a edição fechando o formulário e descartando as alterações.
-   */
+  // Descarta as alterações e fecha a edição
   cancelarEdicao(): void {
     this.atletaEditando = null;
   }
 
-  /**
-   * Envia as alterações do atleta ao backend e atualiza a lista em memória.
-   */
+  // Envia as alterações do atleta editado para o serviço
   async salvarEdicao(): Promise<void> {
     if (!this.atletaEditando) return;
 
@@ -72,7 +64,7 @@ export class ListaAtleta implements OnInit {
     try {
       const atualizado = await this.pessoaService.atualizar(this.atletaEditando);
 
-      // Atualiza o registro diretamente no array local sem recarregar tudo
+      // Atualiza o item diretamente na lista sem precisar recarregá-la inteira
       const index = this.atletas.findIndex(atleta => atleta.id === atualizado.id);
       if (index !== -1) {
         this.atletas[index] = atualizado;
@@ -88,9 +80,7 @@ export class ListaAtleta implements OnInit {
     }
   }
 
-  /**
-   * Pede confirmação e remove o atleta correspondente do sistema.
-   */
+  // Remove o atleta do banco e da listagem local após confirmação
   async excluirAtleta(id: number | undefined): Promise<void> {
     if (!id) return;
 
@@ -103,7 +93,7 @@ export class ListaAtleta implements OnInit {
     try {
       await this.pessoaService.excluir(id);
 
-      // Remove o item excluído da lista local
+      // Remove o atleta excluído do array local
       this.atletas = this.atletas.filter(item => item.id !== id);
       alert('Atleta excluído com sucesso!');
     } catch (error) {
