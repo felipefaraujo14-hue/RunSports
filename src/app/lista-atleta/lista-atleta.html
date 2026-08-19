@@ -1,118 +1,25 @@
-<div class="pagina">
+<div *ngIf="!carregando">
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Sexo</th>
+        <th>Cidade</th>
+        <th>UF</th>
+      </tr>
+    </thead>
 
-  <!-- Cabeçalho com título e contador total -->
-  <div class="cabecalho">
-    <div>
-      <h1>Atletas cadastrados</h1>
-      <p>Lista de atletas registrados no sistema</p>
-    </div>
-    <div class="total">
-      <span>Total</span>
-      <strong>{{ atletas.length }}</strong>
-    </div>
-  </div>
-
-  <!-- Indicador de carregamento -->
-  <div *ngIf="carregando" class="mensagem">
-    Carregando atletas...
-  </div>
-
-  <!-- Tabela de listagem dos atletas -->
-  <div *ngIf="!carregando" class="tabela-container">
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>CPF</th>
-          <th>Sexo</th>
-          <th>Cidade</th>
-          <th>UF</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Iteração da lista de atletas -->
-        <tr *ngFor="let atleta of atletas">
-          <td>{{ atleta.id }}</td>
-          <td>{{ atleta.nome }}</td>
-          <td>{{ atleta.cpf }}</td>
-          <td>{{ atleta.sexo }}</td>
-          <td>{{ atleta.cidade }}</td>
-          <td>{{ atleta.uf }}</td>
-          <td class="acoes">
-            <button class="btn-editar" type="button" (click)="editarAtleta(atleta)">Editar</button>
-            <button class="btn-excluir" type="button" (click)="excluirAtleta(atleta.id)">Excluir</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Estado vazio (sem registros) -->
-    <div *ngIf="atletas.length === 0" class="sem-atletas">
-      Nenhum atleta cadastrado.
-    </div>
-  </div>
-
-  <!-- Formulário para edição de dados do atleta -->
-  <div *ngIf="atletaEditando" class="formulario-edicao">
-    <h2>Editar atleta</h2>
-
-    <div class="form-grid">
-      <div class="campo">
-        <label>Nome</label>
-        <input type="text" [(ngModel)]="atletaEditando.nome">
-      </div>
-
-      <div class="campo">
-        <label>CPF</label>
-        <input type="text" [(ngModel)]="atletaEditando.cpf">
-      </div>
-
-      <div class="campo">
-        <label>Sexo</label>
-        <select [(ngModel)]="atletaEditando.sexo">
-          <option value="M">Masculino</option>
-          <option value="F">Feminino</option>
-        </select>
-      </div>
-
-      <div class="campo">
-        <label>CEP</label>
-        <input type="text" [(ngModel)]="atletaEditando.cep">
-      </div>
-
-      <div class="campo">
-        <label>Logradouro</label>
-        <input type="text" [(ngModel)]="atletaEditando.logradouro">
-      </div>
-
-      <div class="campo">
-        <label>Bairro</label>
-        <input type="text" [(ngModel)]="atletaEditando.bairro">
-      </div>
-
-      <div class="campo">
-        <label>Cidade</label>
-        <input type="text" [(ngModel)]="atletaEditando.cidade">
-      </div>
-
-      <div class="campo">
-        <label>UF</label>
-        <input type="text" maxlength="2" [(ngModel)]="atletaEditando.uf">
-      </div>
-    </div>
-
-    <!-- Ações do formulário -->
-    <div class="botoes-edicao">
-      <button type="button" class="btn-salvar" [disabled]="salvando" (click)="salvarEdicao()">
-        {{ salvando ? 'Salvando...' : 'Salvar alterações' }}
-      </button>
-
-      <button type="button" class="btn-cancelar" [disabled]="salvando" (click)="cancelarEdicao()">
-        Cancelar
-      </button>
-    </div>
-  </div>
-
+    <tbody>
+      <tr *ngFor="let atleta of atletas">
+        <td>{{ atleta.id }}</td>
+        <td>{{ atleta.nome }}</td>
+        <td>{{ atleta.cpf }}</td>
+        <td>{{ atleta.sexo }}</td>
+        <td>{{ atleta.cidade }}</td>
+        <td>{{ atleta.uf }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
