@@ -130,16 +130,28 @@ export class PessoaService {
     return data;
   }
 
-  // EXCLUIR
   async excluir(id: number): Promise<void> {
-
-    const { error } = await this.supabase
+    if (!id) {
+      throw new Error('ID do atleta não informado.');
+    }
+  
+    const { data, error } = await this.supabase
       .from(this.tabela)
       .delete()
-      .eq('id', id);
-
+      .eq('id', id)
+      .select();
+  
     if (error) {
+      console.error('Erro ao excluir atleta:', error);
       throw error;
     }
+  
+    if (!data || data.length === 0) {
+      throw new Error(
+        `Nenhum atleta foi excluído. ID: ${id}`
+      );
+    }
+  
+    console.log('Atleta excluído do Supabase:', data[0]);
   }
 }

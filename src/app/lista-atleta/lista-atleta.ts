@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PessoaService, Atleta } from '../services/pessoa.service';
 
 @Component({
   selector: 'app-lista-atleta',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './lista-atleta.html',
   styleUrls: ['./lista-atleta.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -14,18 +14,18 @@ import { PessoaService, Atleta } from '../services/pessoa.service';
 export class ListaAtleta implements OnInit {
   atletas: Atleta[] = [];
   carregando = false;
-  salvando = false;
-  atletaEditando: Atleta | null = null;
 
   constructor(
     private pessoaService: PessoaService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     await this.carregarAtletas();
   }
 
+  // Carrega a listagem do serviço e força a verificação de mudanças para OnPush
   async carregarAtletas(): Promise<void> {
     this.carregando = true;
     this.cdr.markForCheck();
@@ -41,47 +41,24 @@ export class ListaAtleta implements OnInit {
     }
   }
 
+  // Redireciona para a tela de edição enviando o ID via parâmetro de rota
   editarAtleta(atleta: Atleta): void {
-    this.atletaEditando = { ...atleta };
-    this.cdr.markForCheck();
-  }
+    console.log('Atleta selecionado para editar:', atleta);
 
-  cancelarEdicao(): void {
-    this.atletaEditando = null;
-    this.cdr.markForCheck();
-  }
-
-  async salvarEdicao(): Promise<void> {
-    if (!this.atletaEditando?.id) {
-      if (!this.atletaEditando) return;
-      alert('ID do atleta não informado.');
+    if (atleta.id === undefined) {
+      alert('Este atleta não possui ID.');
       return;
     }
 
-    this.salvando = true;
-    this.cdr.markForCheck();
-
-    try {
-      const atualizado = await this.pessoaService.atualizar(this.atletaEditando);
-
-      // Atualização imutável do array para garantir reatividade
-      this.atletas = this.atletas.map(item =>
-        item.id === atualizado.id ? atualizado : item
-      );
-
-      this.atletaEditando = null;
-      alert('Atleta atualizado com sucesso!');
-    } catch (error) {
-      console.error('Erro ao atualizar:', error);
-      alert('Erro ao atualizar atleta.');
-    } finally {
-      this.salvando = false;
-      this.cdr.markForCheck();
-    }
+    this.router.navigate(['/cadastro-atleta', atleta.id]);
   }
 
+  // Exclui o atleta e atualiza a lista de forma imutável
   async excluirAtleta(id: number | undefined): Promise<void> {
-    if (!id) return;
+    if (id === undefined) {
+      alert('ID do atleta não informado.');
+      return;
+    }
 
     const atleta = this.atletas.find(item => item.id === id);
     if (!atleta || !confirm(`Deseja realmente excluir "${atleta.nome}"?`)) return;
@@ -89,12 +66,11 @@ export class ListaAtleta implements OnInit {
     try {
       await this.pessoaService.excluir(id);
       this.atletas = this.atletas.filter(item => item.id !== id);
+      this.cdr.markForCheck();
       alert('Atleta excluído com sucesso!');
     } catch (error) {
-      console.error('Erro ao excluir:', error);
+      console.error('Erro ao excluir atleta:', error);
       alert('Erro ao excluir atleta.');
-    } finally {
-      this.cdr.markForCheck();
     }
   }
 }

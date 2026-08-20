@@ -1,7 +1,8 @@
 <div class="pagina">
   <div class="card">
-    <h2>Cadastro de Atleta</h2>
-
+    <h2>
+      {{ modoEdicao ? 'Editar Atleta' : 'Cadastro de Atleta' }}
+    </h2>
     <form [formGroup]="atletaForm" (ngSubmit)="cadastrar()">
 
       <div class="campo campo-full">
@@ -97,9 +98,26 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-cadastrar">
-        Cadastrar Atleta
-      </button>
+      <div class="botoes">
+
+       
+      
+        <button
+          type="submit"
+          class="btn-cadastrar"
+          [disabled]="salvando">
+      
+          {{
+            salvando
+              ? 'Salvando...'
+              : (modoEdicao
+                  ? 'Atualizar Atleta'
+                  : 'Cadastrar Atleta')
+          }}
+      
+        </button>
+      
+      </div>
 
     </form>
   </div>

@@ -1,25 +1,108 @@
-<div *ngIf="!carregando">
-  <table border="1">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>CPF</th>
-        <th>Sexo</th>
-        <th>Cidade</th>
-        <th>UF</th>
-      </tr>
-    </thead>
+<div class="container">
 
-    <tbody>
-      <tr *ngFor="let atleta of atletas">
-        <td>{{ atleta.id }}</td>
-        <td>{{ atleta.nome }}</td>
-        <td>{{ atleta.cpf }}</td>
-        <td>{{ atleta.sexo }}</td>
-        <td>{{ atleta.cidade }}</td>
-        <td>{{ atleta.uf }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <h2>Lista de Atletas</h2>
+
+  <!-- CARREGANDO -->
+  <div
+    *ngIf="carregando"
+    class="carregando">
+
+    Carregando atletas...
+
+  </div>
+
+
+  <!-- LISTA -->
+  <div
+    *ngIf="!carregando && atletas.length > 0"
+    class="lista">
+
+    <div
+      class="atleta-card"
+      *ngFor="let atleta of atletas">
+
+      <div class="dados-atleta">
+
+        <h3>
+          {{ atleta.nome }}
+        </h3>
+
+        <p>
+          <strong>CPF:</strong>
+          {{ atleta.cpf }}
+        </p>
+
+        <p>
+          <strong>Sexo:</strong>
+          {{ atleta.sexo }}
+        </p>
+
+        <p>
+          <strong>CEP:</strong>
+          {{ atleta.cep }}
+        </p>
+
+        <p>
+          <strong>Endereço:</strong>
+          {{ atleta.logradouro }}
+        </p>
+
+        <p>
+          <strong>Bairro:</strong>
+          {{ atleta.bairro }}
+        </p>
+
+        <p>
+          <strong>Cidade:</strong>
+          {{ atleta.cidade }}
+        </p>
+
+        <p>
+          <strong>UF:</strong>
+          {{ atleta.uf }}
+        </p>
+
+      </div>
+
+
+      <!-- BOTÕES -->
+      <div class="acoes">
+
+        <!-- EDITAR -->
+        <button
+          type="button"
+          class="btn-editar"
+          (click)="editarAtleta(atleta)">
+
+          Editar
+
+        </button>
+
+
+        <!-- EXCLUIR -->
+        <button
+          type="button"
+          class="btn-excluir"
+          (click)="excluirAtleta(atleta.id)">
+
+         Excluir
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- NENHUM ATLETA -->
+  <div
+    *ngIf="!carregando && atletas.length === 0"
+    class="vazio">
+
+    Nenhum atleta cadastrado.
+
+  </div>
+
 </div>
